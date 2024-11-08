@@ -10,7 +10,7 @@ from dateutil.parser import parse
 class CinohCivilServiceSpider(CityScrapersSpider):
     name = "cinoh_Civil_Service"
     agency = "Cincinnati Civil Service Commission"
-    timezone = "America/Chicago"
+    timezone = "America/New_York"
     committee_id = "A9HCN931D6BA"
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
