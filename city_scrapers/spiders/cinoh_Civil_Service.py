@@ -1,16 +1,17 @@
+import datetime
+
+import scrapy
 from city_scrapers_core.constants import COMMISSION
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-import datetime
 from dateutil.parser import parse
-import scrapy
 
 
 class CinohCivilServiceSpider(CityScrapersSpider):
     name = "cinoh_Civil_Service"
     agency = "Cincinnati Civil Service Commission"
     timezone = "America/Chicago"
-    committee_id = 'A9HCN931D6BA'
+    committee_id = "A9HCN931D6BA"
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
     }
@@ -19,11 +20,9 @@ class CinohCivilServiceSpider(CityScrapersSpider):
     # clicking on meetings tab takes you to meetings index and uses API
     # we scrape API instead via POST request and ignore robots file
     def start_requests(self):
-        url = 'https://go.boarddocs.com/oh/csc/Board.nsf/BD-GetMeetingsList'
-        form_data = {
-            'current_committee_id': self.committee_id
-        }
-        # Sending the POST request
+        url = "https://go.boarddocs.com/oh/csc/Board.nsf/BD-GetMeetingsList"
+        form_data = {"current_committee_id": self.committee_id}
+        # send the POST request and use parse method when response is returned
         yield scrapy.FormRequest(url, formdata=form_data, callback=self.parse)
 
     def parse(self, response):
@@ -34,7 +33,6 @@ class CinohCivilServiceSpider(CityScrapersSpider):
         year = str(datetime.datetime.today().year)
 
         data = response.json()
-
 
         for item in data:
             numb = item.get("numberdate")
@@ -63,18 +61,23 @@ class CinohCivilServiceSpider(CityScrapersSpider):
             yield meeting
 
     def _parse_location(self, item):
-        """Parse or generate location."""
+        """Generate location."""
         return {
             "name": "Cincinnati Civil Service Commission",
             "address": "805 Central Ave, Suite 200, Cincinnati, OH 45202",
         }
 
     def _parse_links(self, item):
-        """Parse or generate links."""
-        uniq = item["unique"]
-        href = f"https://go.boarddocs.com/oh/csc/Board.nsf/Download-AgendaDetailed?open&id={uniq}&current_committee_id={self.committee_id}"
+        """Generate links."""
+        href = (
+            f"https://go.boarddocs.com/oh/csc/Board.nsf/Download-AgendaDetailed?"
+            f"open&id={item['unique']}&current_committee_id={self.committee_id}"
+        )
         return [{"title": "Agenda", "href": href}]
 
     def _parse_source(self, response):
-        """Generate source. Instead of returning API URL we return the more user-friendly web page we can see this data from."""
+        """
+        Generate source. Instead of returning API URL
+        we return the more user-friendly web page we can see this data from.
+        """
         return "https://go.boarddocs.com/oh/csc/Board.nsf/vpublic?open#tab-meetings"

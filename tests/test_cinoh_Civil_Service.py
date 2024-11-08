@@ -47,7 +47,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "cinoh_Civil_Service/202411070000/x/november_7_2024_civil_service_commission"
+    assert (
+        parsed_items[0]["id"]
+        == "cinoh_Civil_Service/202411070000/x/november_7_2024_civil_service_commission"
+    )
 
 
 def test_status():
@@ -62,14 +65,19 @@ def test_location():
 
 
 def test_source():
-    assert parsed_items[0]["source"] == "https://go.boarddocs.com/oh/csc/Board.nsf/vpublic?open#tab-meetings"
+    assert (
+        parsed_items[0]["source"]
+        == "https://go.boarddocs.com/oh/csc/Board.nsf/vpublic?open#tab-meetings"
+    )
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [{
-        "title": "Agenda",
-        "href": "https://go.boarddocs.com/oh/csc/Board.nsf/Download-AgendaDetailed?open&id=CZQLFH5631AD&current_committee_id=A9HCN931D6BA",
-    }]
+    assert parsed_items[0]["links"] == [
+        {
+            "title": "Agenda",
+            "href": "https://go.boarddocs.com/oh/csc/Board.nsf/Download-AgendaDetailed?open&id=CZQLFH5631AD&current_committee_id=A9HCN931D6BA",  # noqa
+        }
+    ]
 
 
 def test_classification():
