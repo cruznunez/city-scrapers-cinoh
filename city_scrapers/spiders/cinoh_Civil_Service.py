@@ -41,8 +41,6 @@ class CinohCivilServiceSpider(CityScrapersSpider):
             # skip if no date or meeting is too old
             if numb is None:
                 continue
-
-            # skip if date is too old
             meeting_date = parse(numb)
             if meeting_date < lower_limit:
                 continue
