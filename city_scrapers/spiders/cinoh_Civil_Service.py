@@ -1,10 +1,11 @@
-import datetime
+from datetime import datetime
 
 import scrapy
 from city_scrapers_core.constants import COMMISSION
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse
+from dateutil.relativedelta import relativedelta
 
 
 class CinohCivilServiceSpider(CityScrapersSpider):
@@ -30,18 +31,23 @@ class CinohCivilServiceSpider(CityScrapersSpider):
         Parse JSON response.
         """
 
-        year = str(datetime.datetime.today().year)
+        lower_limit = datetime.now() - relativedelta(months=6)
 
         data = response.json()
 
         for item in data:
             numb = item.get("numberdate")
 
-            # skip iteration if meeting is not for current year
-            if numb is None or year not in numb:
+            # skip if no date or meeting is too old
+            if numb is None:
                 continue
 
-            # if we are in current year then parse meeting
+            # skip if date is too old
+            meeting_date = parse(numb)
+            if meeting_date < lower_limit:
+                continue
+
+            # if date is valid then parse meeting
             meeting = Meeting(
                 title=item["name"],
                 description="",
