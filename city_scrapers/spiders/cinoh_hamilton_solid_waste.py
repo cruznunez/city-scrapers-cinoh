@@ -18,10 +18,7 @@ class CinohHamiltonSolidWasteSpider(CityScrapersSpider):
 
     def parse(self, response):
         """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
+        Parse data from meetings table.
         """
         for item in response.css("tbody tr"):
             meeting = Meeting(
