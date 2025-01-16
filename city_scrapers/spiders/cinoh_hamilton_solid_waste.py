@@ -12,7 +12,7 @@ class CinohHamiltonSolidWasteSpider(CityScrapersSpider):
     timezone = "America/New_York"
     start_urls = ["https://www.hcdoes.org/AgendaCenter/"]
     location = {
-        "name": "Hamilton CountyY Environmental Services",
+        "name": "Hamilton County Environmental Services",
         "address": "250 William Howard Taft Road, First Floor, Cincinnati, OH 45219",
     }
 
@@ -64,7 +64,6 @@ class CinohHamiltonSolidWasteSpider(CityScrapersSpider):
         output = []
         links = item.css(".minutes a, .media a, .popout a")
         for link in links:
-            # import pdb; pdb.set_trace()
             title = link.css("::attr(aria-label)").get()
             href = link.css("::attr(href)").get()
             url = urljoin(base_url, href)
