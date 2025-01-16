@@ -62,7 +62,7 @@ def test_status():
 
 def test_location():
     assert parsed_items[0]["location"] == {
-        "name": "Hamilton CountyY Environmental Services",
+        "name": "Hamilton County Environmental Services",
         "address": "250 William Howard Taft Road, First Floor, Cincinnati, OH 45219",
     }
 
