@@ -51,13 +51,6 @@ class CinohHamiltonSolidWasteSpider(CityScrapersSpider):
         else:
             return None
 
-    def _parse_location(self, item):
-        """Parse or generate location."""
-        return {
-            "address": "",
-            "name": "",
-        }
-
     def _parse_links(self, item):
         """Parse or generate links."""
         base_url = "https://www.hcdoes.org/"
